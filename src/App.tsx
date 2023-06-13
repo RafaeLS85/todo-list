@@ -1,8 +1,9 @@
 import { useState } from "react";
 import "./App.css";
 import { Form } from "./components/Form";
+import { TodoList } from "./components/TodoList";
 
-interface Todos {
+export interface Todos {
   text: string;
   complete: boolean;
 }
@@ -22,29 +23,16 @@ function App() {
       )
     );
 
+  const handleSubmit = (text: string) =>
+    setTodos([{ text, complete: false }, ...todos]);
+
   return (
-    <>
-      Todo App
-      <Form
-        onSubmit={(text: string) =>
-          setTodos([{ text, complete: false }, ...todos])
-        }
-      />
-      <div>
-        {todos.map(({ text, complete }, i) => (
-          <div
-            key={text}
-            onClick={() => toggleComplete(i)}
-            style={{
-              textDecoration: complete ? "line-through" : "",
-            }}
-          >
-            {text}
-          </div>
-        ))}
-      </div>
+    <main>
+      <h1>Todo List</h1>
+      <Form onSubmit={handleSubmit} />
+      <TodoList todos={todos} onToggle={toggleComplete} />
       <button onClick={() => setTodos([])}>Reset</button>
-    </>
+    </main>
   );
 }
 
