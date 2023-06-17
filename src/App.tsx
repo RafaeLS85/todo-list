@@ -1,30 +1,10 @@
-import { useState } from "react";
 import "./App.css";
 import { Form } from "./components/Form";
 import { TodoList } from "./components/TodoList";
-
-export interface Todos {
-  text: string;
-  complete: boolean;
-}
+import { useTodos } from "./hooks/useTodos";
 
 function App() {
-  const [todos, setTodos] = useState<Todos[]>([]);
-
-  const toggleComplete = (i: number) =>
-    setTodos(
-      todos.map((todo, k) =>
-        k === i
-          ? {
-              ...todo,
-              complete: !todo.complete,
-            }
-          : todo
-      )
-    );
-
-  const handleSubmit = (text: string) =>
-    setTodos([{ text, complete: false }, ...todos]);
+  const { todos, handleSubmit, setTodos, toggleComplete } = useTodos();
 
   return (
     <main>
