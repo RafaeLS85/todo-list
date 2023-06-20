@@ -5,7 +5,6 @@ interface Props {
   onToggle: (index: number) => void;
 }
 export const TodoList = ({ todos, onToggle }: Props) => {
-  console.log({todos})
   return (
     <div>
       {todos.map(({ id, text, complete }, i) => (

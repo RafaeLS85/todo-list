@@ -7,8 +7,15 @@ export interface Todos {
 }
 
 export const useTodos = () => {
-  const [todos, setTodos] = useState<Todos[]>(
-    JSON.parse(window.localStorage.getItem("todos")) || []
+  const [todos, setTodos] = useState<Todos[]>(() => {
+    try {
+      const items = JSON.parse(window.localStorage.getItem("todos") || "")
+      return items ? items : [];
+    }catch(e){
+      console.error(e);
+      return [] 
+    }
+  }
   );
 
   useEffect(() => {
@@ -28,8 +35,7 @@ export const useTodos = () => {
     );
 
   const handleSubmit = (text: string) => {
-    const newTodo = { id: Date.now(), text, complete: false };
-    setTodos([newTodo, ...todos]);
+    setTodos([{ id: Date.now(), text, complete: false }, ...todos]);
   };
 
   const setLocalStorage = (value: Todos[]) => {
